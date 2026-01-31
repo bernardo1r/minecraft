@@ -1,0 +1,14 @@
+services:
+  minecraft:
+    build: .
+    image: bernardo1r/minecraft
+    container_name: minecraft-server
+    ports:
+      - 25565:25565
+    pull_policy: never
+    tty: true
+    restart: always
+    environment:
+      DOWNLOAD_URL: "https://api.feed-the-beast.com/v1/modpacks/public/modpack/128/100170/server/linux"
+      SERVER_TYPE: "FTB"
+      EULA: true

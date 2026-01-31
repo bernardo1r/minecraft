@@ -1,0 +1,17 @@
+name: Build and push docker image
+on: workflow_dispatch
+
+jobs:
+  push-image:
+    runs-on: ubuntu-latest
+    steps:
+      - name: checkout
+        uses: actions/checkout@v4
+
+      - name: build
+        run: docker compose up -d
+
+      - name: push
+        run: |
+          docker login -u bernardo1r -p ${{ secrets.DOCKER_HUB_TOKEN }}
+          docker push bernardo1r/minecraft
