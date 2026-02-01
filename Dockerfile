@@ -1,6 +1,7 @@
 FROM alpine
 
-WORKDIR /server
+ARG WORKDIR
+WORKDIR "$WORKDIR"
 
 COPY scripts/ scripts/
 

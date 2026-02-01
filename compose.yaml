@@ -1,6 +1,9 @@
 services:
   minecraft:
-    build: .
+    build:
+      context: .
+      args:
+        - "WORKDIR=/minecraft"
     image: bernardo1r/minecraft
     container_name: minecraft-server
     ports:
@@ -12,3 +15,10 @@ services:
       DOWNLOAD_URL: "https://api.feed-the-beast.com/v1/modpacks/public/modpack/128/100170/server/linux"
       SERVER_TYPE: "FTB"
       EULA: true
+      ONLINE_MODE: "false"
+    volumes:
+      - "minecraft-server:/minecraft"
+
+volumes:
+  minecraft-server:
+    name: "minecraft-server"

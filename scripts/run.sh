@@ -41,9 +41,6 @@ setup() {
 	scripts/create-server-files.sh
 	check_status "failed to create server files"
 
-	scripts/change-server-properties.sh
-	check_status "failed to change config"
-
 	info "setup done"
 	SETUP_DONE=true
 	dump_env
@@ -54,16 +51,6 @@ stop() {
 }
 
 run() {
-	if [[ ! -v SERVER_NAME ]]; then
-		SERVER_NAME="server.jar"
-	fi
-
-	if [[ "$SERVER_TYPE" == "FTB" ]]; then
-		RUN_COMMAND="./run.sh"
-
-	elif [[ ! -v RUN_COMMAND ]]; then
-		RUN_COMMAND="java -jar ${SERVER_NAME} nogui"
-	fi
 	screen -dmS server $RUN_COMMAND
 	
 	while screen -ls server > /dev/null 2>&1; do
@@ -72,6 +59,7 @@ run() {
 }
 
 main() {
+	. scripts/functions.sh
 	load_env
 	if (( $STATUS != 0 )); then
 		exit $STATUS
@@ -81,9 +69,12 @@ main() {
 		setup
 	fi
 
+	scripts/change-server-properties.sh
+	check_status "failed to change config"
+
 	trap stop TERM EXIT INT
 
-	info "starting server"
+	info "starting server in screen"
 	run &
 	wait $!
 	info "closing server"

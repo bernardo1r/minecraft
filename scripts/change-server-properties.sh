@@ -17,16 +17,20 @@ save_properties() {
 	done
 }
 
+update_properties() {
+	while IFS='=' read -r name value; do
+		name=$(echo "$name" | tr 'A-Z_' 'a-z-')
+		if [[ -v server_properties["$name"] ]]; then
+			server_properties["$name"]="$value"
+		fi
+	done <<< $(env)
+}
+
 echo "reading server properties"
 read_properties
 
 echo "changing values"
-while IFS='=' read -r name value; do
-	name=$(echo "$name" | tr 'A-Z_' 'a-z-')
-	if [[ -v server_properties["$name"] ]]; then
-		server_properties["$name"]="$value"
-	fi
-done <<< $(env)
+update_properties
 
 echo "saving server properties"
 save_properties
