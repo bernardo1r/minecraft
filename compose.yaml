@@ -5,20 +5,12 @@ services:
       args:
         - "WORKDIR=/minecraft"
     image: bernardo1r/minecraft
-    container_name: minecraft-server
+    container_name: minecraft
     ports:
       - 25565:25565
     pull_policy: never
     tty: true
     restart: always
     environment:
-      DOWNLOAD_URL: "https://api.feed-the-beast.com/v1/modpacks/public/modpack/128/100170/server/linux"
-      SERVER_TYPE: "FTB"
+      DOWNLOAD_URL: "https://piston-data.mojang.com/v1/objects/64bb6d763bed0a9f1d632ec347938594144943ed/server.jar"
       EULA: true
-      ONLINE_MODE: "false"
-    volumes:
-      - "minecraft-server:/minecraft"
-
-volumes:
-  minecraft-server:
-    name: "minecraft-server"

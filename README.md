@@ -8,11 +8,11 @@ To run a simple creative vanilla 1.21.1 server:
 ```yaml
 services:
   minecraft:
-    image: bernardo1r/minecraft
-    container_name: minecraft-server
     build:
       args:
         - "WORKDIR=/minecraft"
+    image: bernardo1r/minecraft
+    container_name: minecraft
     ports:
       - 25565:25565
     tty: true
@@ -29,15 +29,15 @@ volumes:
     name: "minecraft-server"
 ```
 
-To run an vanilla 1.21.1 server with custom memory settings add the keys `SERVER_NAME` and `RUN_COMMAND`:
+To run an vanilla 1.21.1 server with custom memory settings add the key `RUN_COMMAND_ARGS`:
 ```yaml
 services:
   minecraft:
-    image: bernardo1r/minecraft
-    container_name: minecraft-server
     build:
       args:
         - "WORKDIR=/minecraft"
+    image: bernardo1r/minecraft
+    container_name: minecraft
     ports:
       - 25565:25565
     tty: true
@@ -46,8 +46,7 @@ services:
       - "minecraft-server:/minecraft"
     environment:
       DOWNLOAD_URL: "https://piston-data.mojang.com/v1/objects/64bb6d763bed0a9f1d632ec347938594144943ed/server.jar"
-      SERVER_NAME: "server.jar"
-      RUN_COMMAND: "java -Xmx2G -Xms512M -jar server.jar nogui"
+      RUN_COMMAND_ARGS: "-Xmx10G"
       EULA: true
 
 volumes:
@@ -55,15 +54,15 @@ volumes:
     name: "minecraft-server"
 ```
 
-To run an server for FTB modpack:
+To run an OceanBlock 2 server from FTB modpack:
 ```yaml
 services:
   minecraft:
-    image: bernardo1r/minecraft
-    container_name: minecraft-server
     build:
       args:
         - "WORKDIR=/minecraft"
+    image: bernardo1r/minecraft
+    container_name: minecraft
     ports:
       - 25565:25565
     tty: true
@@ -80,15 +79,15 @@ volumes:
     name: "minecraft-server"
 ```
 
-If this setup fails or you need another modpack, you will need to use the keys `SERVER_SETUP_ARGS` and `SERVER_COMMAND`:
+To run a Cobbleverse from Modrinth modpacks:
 ```yaml
 services:
   minecraft:
-    image: bernardo1r/minecraft
-    container_name: minecraft-server
     build:
       args:
         - "WORKDIR=/minecraft"
+    image: bernardo1r/minecraft
+    container_name: minecraft
     ports:
       - 25565:25565
     tty: true
@@ -96,9 +95,9 @@ services:
     volumes:
       - "minecraft-server:/minecraft"
     environment:
-      DOWNLOAD_URL: "https://api.feed-the-beast.com/v1/modpacks/public/modpack/128/100170/server/linux"
-      SERVER_SETUP_ARGS: "-auto -force -pack 128 -version 100170"
-      SERVER_COMMAND: "./run.sh"
+      DOWNLOAD_URL: "https://cdn.modrinth.com/data/Jkb29YJU/versions/ERxm2is0/COBBLEVERSE%201.7.2.mrpack"
+      DOWNLOAD_SERVER_URL: "https://meta.fabricmc.net/v2/versions/loader/1.21.1/0.18.4/1.1.1/server/jar"
+      SERVER_TYPE: "MODRINTH"
       EULA: true
 
 volumes:

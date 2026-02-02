@@ -33,17 +33,19 @@ check_status() {
 }
 
 setup() {
-	info "starting setup"
+	scripts/install.sh
+	check_status "failed to run setup"
 
-	scripts/add-eula.sh
-	check_status "failed to add eula config"
-
-	scripts/create-server-files.sh
-	check_status "failed to create server files"
-
-	info "setup done"
 	SETUP_DONE=true
 	dump_env
+}
+
+build_run_command() {
+	if [[ "$SERVER_TYPE" == "FTB" ]]; then
+		RUN_COMMAND="./run.sh"
+	else
+		RUN_COMMAND="java $RUN_COMMAND_ARGS -jar server.jar"
+	fi
 }
 
 stop() {
@@ -51,6 +53,8 @@ stop() {
 }
 
 run() {
+	build_run_command
+
 	screen -dmS server $RUN_COMMAND
 	
 	while screen -ls server > /dev/null 2>&1; do
@@ -59,7 +63,6 @@ run() {
 }
 
 main() {
-	. scripts/functions.sh
 	load_env
 	if (( $STATUS != 0 )); then
 		exit $STATUS

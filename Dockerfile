@@ -1,10 +1,10 @@
 FROM alpine
-
 ARG WORKDIR
-WORKDIR "$WORKDIR"
+WORKDIR $WORKDIR
 
-COPY scripts/ scripts/
+RUN apk update && apk upgrade
+RUN apk add openjdk21-jre-headless bash screen curl
 
-RUN apk update && apk upgrade && apk add openjdk21-jre-headless screen bash
+COPY . .
 
-ENTRYPOINT ["scripts/run.sh"]
+entrypoint ["scripts/run.sh"]

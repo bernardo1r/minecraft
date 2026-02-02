@@ -18,9 +18,15 @@ save_properties() {
 }
 
 update_properties() {
+	local name value
+	local empty=false
+	if (( ${#server_properties[@]} == 0 )); then
+		empty=true
+	fi
+
 	while IFS='=' read -r name value; do
 		name=$(echo "$name" | tr 'A-Z_' 'a-z-')
-		if [[ -v server_properties["$name"] ]]; then
+		if [[ -v server_properties["$name"] || "$empty" == "true" ]]; then
 			server_properties["$name"]="$value"
 		fi
 	done <<< $(env)
