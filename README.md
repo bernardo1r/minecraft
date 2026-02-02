@@ -4,6 +4,8 @@ Simple minecraft image, only need a docker compose file to run. Server accessibl
 
 You can add any [server.properties](https://minecraft.fandom.com/wiki/Server.properties) variable in the `environment` key in the compose yaml.
 
+*From Modrinth modpacks, only fabric ones are currently supported.*
+
 To run a simple creative vanilla 1.21.1 server:
 ```yaml
 services:
@@ -54,7 +56,7 @@ volumes:
     name: "minecraft-server"
 ```
 
-To run an OceanBlock 2 server from FTB modpack:
+To run an OceanBlock 2 server from FTB modpacks:
 ```yaml
 services:
   minecraft:
